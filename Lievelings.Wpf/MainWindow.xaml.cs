@@ -34,12 +34,29 @@ namespace Lievelings.Wpf
             beginVanDeZin = BeginNed;
         }
 
-        private void VerbergKnoppen()
+        private void WijzigBeschikbaarheidTaalKnoppen(bool isBtnNederlandsBeschikbaar)
+        {
+            btnNl.IsEnabled = isBtnNederlandsBeschikbaar;
+            btnEn.IsEnabled = !isBtnNederlandsBeschikbaar;
+        }
+
+        private void WijzigZichtbaarheidTaalKnoppen(Visibility zichtbaarheid)
+        {
+            btnEn.Visibility = zichtbaarheid;
+            btnNl.Visibility = zichtbaarheid;
+        }
+
+       /* private void VerbergKnoppen()
         {
             btnEn.Visibility = Visibility.Hidden;
             btnNl.Visibility = Visibility.Hidden;
         }
-
+        private void ToonKnoppen()
+        {
+            btnEn.Visibility = Visibility.Visible;
+            btnNl.Visibility = Visibility.Visible;
+        }
+        */
         private void VulLstSteden()
         {
             lstSteden.Items.Add("Antwerpen");
@@ -49,11 +66,7 @@ namespace Lievelings.Wpf
             lstSteden.Items.Add("Hasselt");
         }
 
-        private void ToonKnoppen()
-        {
-            btnEn.Visibility = Visibility.Visible;
-            btnNl.Visibility = Visibility.Visible;
-        }
+
 
         private void ToonEngelstaligeOpschriften()
         {
@@ -63,7 +76,7 @@ namespace Lievelings.Wpf
 
             Title = TitelEng;
         }
-        
+
         private void ToonNederlandstaligeOpschriften()
         {
             beginVanDeZin = BeginNed;
@@ -72,32 +85,36 @@ namespace Lievelings.Wpf
 
             Title = TitelNed;
         }
-        
+
         private void btnEn_Click(object sender, RoutedEventArgs e)
         {
             ToonEngelstaligeOpschriften();
+            WijzigBeschikbaarheidTaalKnoppen(true);
         }
 
         private void btnNl_Click(object sender, RoutedEventArgs e)
         {
             ToonNederlandstaligeOpschriften();
+            WijzigBeschikbaarheidTaalKnoppen(false);
         }
-        
+
         private void lstSteden_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             stad = lstSteden.SelectedItem.ToString();
             lblLievelingsStad.Content = $"{beginVanDeZin}{stad}";
 
-            ToonKnoppen();
+            WijzigZichtbaarheidTaalKnoppen(Visibility.Visible);
         }
 
         private void wndMainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             VulLstSteden();
 
-            VerbergKnoppen();
+            WijzigZichtbaarheidTaalKnoppen(Visibility.Hidden);
 
             Title = TitelNed;
+
+            WijzigBeschikbaarheidTaalKnoppen(false);
         }
     }
 }
